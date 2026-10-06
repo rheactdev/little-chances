@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#29322e">
+  <meta name="description" content="A little enchanted book of fair, cryptographically random spinning wheels. Works offline, saves locally.">
+  <title>Little Chances | A wheel-spinning storybook</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page-background" aria-hidden="true"><i class="bg-star s1">✦</i><i class="bg-star s2">✧</i><i class="bg-star s3">✦</i><i class="bg-star s4">✧</i><i class="bg-star s5">✧</i></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">✳</div>
+        <div>
+          <div class="brand-name">LITTLE CHANCES <span>✦</span></div>
+          <div class="brand-tagline">a very small book of possibilities</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="top-help" id="historyButton" type="button" aria-label="View recent destinies" title="Recent destinies"><span class="sparkle" aria-hidden="true">▤</span> Recent destinies</button>
+        <button class="top-help" id="helpButton" type="button" aria-label="How fair is the wheel?" title="How fair is it?"><span class="sparkle" aria-hidden="true">✧</span> How fair is it?</button>
+      </div>
+    </header>
+
+    <main class="scene">
+      <div class="desk-objects" aria-hidden="true">
+        <div class="desk-leaf leaf1">✤</div>
+        <div class="desk-leaf leaf2">✤</div>
+        <div class="desk-star">✧</div>
+      </div>
+
+      <div class="chapter-strip">
+        <span class="strip-label">YOUR BOOK OF WHEELS</span>
+        <nav class="tabs" id="tabs" aria-label="Saved wheels"></nav>
+        <button id="newPageButton" class="new-tab" type="button" title="Make a new wheel" aria-label="Create a new wheel">＋</button>
+      </div>
+
+      <div class="book-stack">
+        <div class="book-cover" aria-hidden="true"></div>
+        <div class="book">
+          <section class="paper paper-left" aria-labelledby="wheelHeading">
+            <div class="ornament ornament-left" aria-hidden="true">✦ · · · ✥ · · · ✦</div>
+            <div class="left-header">
+              <div class="eyebrow">✧ A MOMENT OF CHANCE ✧</div>
+              <h1 id="wheelHeading">The Wheel of Wonders</h1>
+              <p>Every possibility has its own little magic.</p>
+            </div>
+
+            <div class="wheel-zone">
+              <button class="wheel-frame" id="wheelSpinTarget" type="button" aria-label="Spin the wheel" title="Click to spin the wheel">
+                <div class="wheel-shadow" aria-hidden="true"></div>
+                <div class="wheel-rotor" id="wheelRotor"><canvas id="wheelCanvas" width="720" height="720" role="img" aria-label="Wheel with equal-size segments, one for each option"></canvas></div>
+                <div class="wheel-pointer" aria-hidden="true"><span class="pointer-top">◆</span><span class="pointer-body"></span></div>
+                <div class="wheel-hub" aria-hidden="true">✧</div>
+              </button>
+            </div>
+
+            <div class="spin-control">
+              <div class="spin-feedback">
+                <p class="under-spin" id="spinHint">Tap the wheel or bookkeeper to spin</p>
+                <div id="resultPanel" class="result-panel" role="status" aria-live="polite" aria-atomic="true" hidden>
+                  <span class="result-eyebrow">✦ THE BOOKKEEPER SAYS ✦</span>
+                  <strong id="resultText" class="result-text"></strong>
+                </div>
+              </div>
+            </div>
+
+            <button class="character-nook" id="characterSpinTarget" type="button" aria-label="Ask the bookkeeper to spin the wheel" title="Click the bookkeeper to spin">
+              <span id="character" class="character-sprite" data-motion="idle" aria-hidden="true"></span>
+              <span class="character-shadow" aria-hidden="true"></span>
+            </button>
+            <div class="page-foot" aria-hidden="true"><span>❀</span><span>— 01 —</span><span>❀</span></div>
+          </section>
+
+          <div class="book-spine" aria-hidden="true"></div>
+
+          <section class="paper paper-right" aria-labelledby="optionsHeading">
+            <div class="ornament ornament-right" aria-hidden="true">✦ · · · ✥ · · · ✦</div>
+            <div class="right-header">
+              <div class="eyebrow">CHAPTER <span id="chapterNumber">I</span> <span class="eyebrow-dot">·</span> THE POSSIBILITIES</div>
+              <label for="wheelName" class="sr-only">Wheel name</label>
+              <input id="wheelName" class="book-title-input" type="text" maxlength="48" placeholder="Name your wheel" spellcheck="false" aria-label="Wheel name">
+              <div class="header-divider" aria-hidden="true"><span>✥</span></div>
+              <p class="options-intro">Write down what fate may choose.</p>
+            </div>
+
+            <div class="option-count-line"><h2 id="optionsHeading">YOUR ENTRIES <span class="mini-star">✦</span></h2><span class="entry-count" id="entryCount">0 ENTRIES</span></div>
+            <div class="options-list" id="optionsList" aria-label="Wheel entries"></div>
+            <form class="add-form" id="addForm" autocomplete="off">
+              <label class="sr-only" for="newOption">New wheel option</label>
+              <input type="text" id="newOption" maxlength="70" placeholder="Add another possibility...">
+              <button type="submit" aria-label="Add option" title="Add option">＋</button>
+            </form>
+
+            <div class="right-footer"><span class="local-note">✧ Saved in this browser</span><button id="deletePageButton" class="delete-page" type="button">Delete page</button></div>
+            <div class="page-foot page-foot-right" aria-hidden="true"><span>❀</span><span>— 02 —</span><span>❀</span></div>
+          </section>
+        </div>
+      </div>
+      <div class="below-book"><span>✧ Made for the wonderfully indecisive ✧</span><span class="fair-label">⚿ CRYPTOGRAPHICALLY RANDOM · NO ACCOUNTS · OFFLINE-READY</span></div>
+    </main>
+  </div>
+
+  <dialog id="helpDialog" class="info-dialog" aria-labelledby="dialogTitle">
+    <div class="dialog-head"><span>✧ A NOTE FROM THE BOOKKEEPER ✧</span><button id="closeDialog" type="button" aria-label="Close">✕</button></div>
+    <h2 id="dialogTitle">Is the wheel really random?</h2>
+    <p>Each spin uses your browser's <strong><code>crypto.getRandomValues()</code></strong>, a cryptographically secure random number generator backed by the operating system.</p>
+    <p>We use <strong>rejection sampling</strong> to choose an entry without modulo bias. Every entry has exactly the same chance of winning. The spinning animation is drawn to land on the result already selected by the secure generator.</p>
+    <p>The tiny landing variation also uses secure random bytes. It only changes where the pointer stops <em>inside the winning segment</em>, never which entry wins.</p>
+    <p>This is the strongest general-purpose source of randomness available to ordinary websites without an external service or special hardware. It is cryptographically secure pseudorandomness, rather than a guarantee of physical true randomness.</p>
+    <div class="dialog-rule"></div>
+    <p class="dialog-small">Your wheels and recent results live in this browser's local storage. Nothing is uploaded, and the app works without the internet.</p>
+    <button class="dialog-done" id="doneDialog" type="button">BACK TO THE BOOK ✦</button>
+  </dialog>
+  <dialog id="historyDialog" class="info-dialog history-dialog" aria-labelledby="historyDialogTitle">
+    <div class="dialog-head"><span>✦ PAGES OF FATE ✦</span><button id="closeHistoryDialog" type="button" aria-label="Close recent destinies">✕</button></div>
+    <h2 id="historyDialogTitle">Recent Destinies</h2>
+    <p class="history-intro">A little record of where the wheel has landed.</p>
+    <div class="history-modal-content">
+      <div class="history-head"><span id="historyWheelName">THIS WHEEL</span><button type="button" id="clearHistoryButton" title="Clear this wheel's spin history">clear</button></div>
+      <ol class="history-list" id="historyList" aria-label="Recent spin results"></ol>
+    </div>
+    <button class="dialog-done" id="doneHistoryDialog" type="button">BACK TO THE BOOK ✦</button>
+  </dialog>
+  <noscript><div class="noscript">This enchanted book needs JavaScript to spin its wheel.</div></noscript>
+</body>
+</html>
